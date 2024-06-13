@@ -35,7 +35,7 @@ const eventSchema = new mongoose.Schema({
     },
     eventType: {
         type: String,
-        enum: ["online", "offline"],
+        enums: ["Online", "Offline"],
         required: true
     },
     isPaid: {
