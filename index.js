@@ -1,9 +1,17 @@
 const express = require("express");
 const { initializeDatabase } = require("./db/db.connect");
 const Event = require("./model/event.model")
+const cors = require("cors")
 
 const app = express();
 app.use(express.json())
+
+const corsOption = {
+    origin: "*",
+    credentials: true
+}
+
+app.use(cors(corsOption));
 
 initializeDatabase();
 
@@ -47,7 +55,6 @@ app.get("/event", async (req, res) => {
     try {
         const events = await getAllEvents();
         if (events.length !== 0) {
-            console.log(events)
             res.status(200).json({ message: "List of Events", events: events });
         } else {
             res.status(404).json({ error: "Events not Found." });
