@@ -65,6 +65,29 @@ app.get("/event", async (req, res) => {
     }
 });
 
+async function getEventById(eventId) {
+    try {
+        const event = await Event.findById(eventId);
+        return event
+    } catch (error) {
+        throw error
+    }
+}
+
+app.get("/event/:eventId", async (req, res) => {
+    try {
+        const event = await getEventById(req.params.eventId);
+        if (event) {
+            res.status(200).json({ event: event })
+        } else {
+            res.status(404).json({ error: "Event not found" })
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Failed to fetch Event." })
+    }
+})
+
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server is running at PORT ${PORT}`)
